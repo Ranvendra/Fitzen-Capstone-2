@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap');
+
+.newsletter {
+  font-family: 'Outfit', sans-serif;
+  padding: 80px 30px;
+  background: linear-gradient(to right, #e0e0ff, #f5e4ff);
+  border-radius: 18px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  margin: 60px auto;
+}
+
+.newsletter-container {
+  max-width: 1100px;
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.newsletter-left,
+.newsletter-right {
+  flex: 1 1 300px;
+  padding: 40px 30px;
+}
+
+.newsletter-left {
+  background: #ffffff;
+}
+
+.newsletter-right {
+  background: linear-gradient(to right, #8f37ff, #c040ff);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.newsletter-tag {
+  color: #a855f7;
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+.newsletter-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 14px;
+}
+
+.newsletter-desc {
+  font-size: 1.05rem;
+  color: #374151;
+  margin-bottom: 25px;
+  line-height: 1.6;
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.newsletter-input {
+  padding: 12px 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  font-size: 1rem;
+  flex: 1 1 200px;
+  min-width: 220px;
+}
+
+.newsletter-button {
+  background: #a855f7;
+  color: white;
+  padding: 12px 20px;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background 0.3s ease;
+}
+
+.newsletter-button:hover {
+  background: #9333ea;
+}
+
+.newsletter-privacy {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin-top: 8px;
+}
+
+.subscriber-count {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.subscriber-label {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.stars {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.rating-info {
+  font-size: 0.95rem;
+  opacity: 0.9;
+}

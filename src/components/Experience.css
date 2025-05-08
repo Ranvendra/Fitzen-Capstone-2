@@ -1,0 +1,52 @@
+.experience-section {
+    display: flex;
+    gap: 50px;
+    padding: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color: #f9f9fb;
+  }
+  
+  .coach-card {
+    padding: 5px;
+    width: 280px;
+    background: white;
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease;
+  }
+  
+  .coach-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .coach-image {
+    border-radius: 30px;
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+  }
+  
+  .coach-info {
+    padding: 16px;
+    text-align: left;
+  }
+  
+  .coach-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0;
+  }
+  
+  .coach-title {
+    color: #7a5af5;
+    font-weight: 500;
+    margin: 4px 0;
+  }
+  
+  .coach-description {
+    font-size: 0.9rem;
+    color: #4a4a4a;
+    line-height: 1.4;
+  }
