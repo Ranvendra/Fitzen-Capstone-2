@@ -41,9 +41,9 @@ const Footer = () => {
 
     </footer>
 
-<div className="footer-bottom">
-© 2025 FitFlow. All rights reserved.
-</div>
+{/* <div className="footer-bottom">
+Copyright © 2025 Fitzen. All rights reserved.
+</div> */}
 </>
   );
 };
