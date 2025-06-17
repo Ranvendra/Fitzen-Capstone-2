@@ -11,12 +11,12 @@ const stats = [
 
 const StatsSection = () => {
   return (
-    <section className="stats-section">
+    <section className="home-stats-section">
       {stats.map((stat, index) => (
-        <div className="stat-card" key={index}>
-          <div className="stat-icon">{stat.icon}</div>
-          <h2 className="stat-count">{stat.count}</h2>
-          <p className="stat-label">{stat.label}</p>
+        <div className="home-stat-card" key={index}>
+          <div className="home-stat-icon">{stat.icon}</div>
+          <h2 className="home-stat-count">{stat.count}</h2>
+          <p className="home-stat-label">{stat.label}</p>
         </div>
       ))}
     </section>

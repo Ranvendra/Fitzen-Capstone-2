@@ -115,145 +115,44 @@
   animation-delay: -3s;
 }
 
-/* Why Mentors Section */
-.why-mentors-section {
-  padding: 8rem 2rem;
-  background: #fafafa;
-}
-
-.section-header {
-  text-align: center;
-  max-width: 800px;
-  margin: 0 auto 4rem;
-}
-
-.section-title {
-  font-size: clamp(2.5rem, 5vw, 3.5rem);
-  font-weight: 700;
-  color: #1a1a1a;
-  margin-bottom: 1.5rem;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-}
-
-.title-accent {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.section-description {
-  font-size: 1.2rem;
-  color: #666;
-  line-height: 1.7;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.benefits-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  align-content: center;
-  justify-content: center;
-}
-
-.benefit-card {
-  background: white;
-  padding: 3rem 2rem;
-  border-radius: 24px;
-  text-align: center;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  transition: all 0.4s ease;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.benefit-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(2, 19, 45, 0.13);
-}
-
-.benefit-icon {
-  width: 80px;
-  height: 80px;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 1.5rem;
-  transition: all 0.3s ease;
-}
-
-.benefit-icon-purple {
-  background: linear-gradient(135deg, #6985ff 0%, #aa55ff 100%);
-}
-
-.benefit-icon-blue {
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-}
-
-.benefit-icon-indigo {
-  background: linear-gradient(135deg, #00e94e 0%, #a3ffee 100%);
-}
-
-.benefit-icon .icon {
-  width: 32px;
-  height: 32px;
-  color: white;
-}
-
-.benefit-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  background: linear-gradient(135deg, #4af0ff 0%, #7f1dff, rgb(255, 54, 54), rgb(255, 105, 12) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text; /* For Firefox */
-  color: transparent;
-  margin-bottom: 1rem;
-}
-
-.benefit-description {
-  color: #383434;
-}
 
 /* Search Section */
-.search-section {
+
+.mentors-search-section {
   padding: 6rem 2rem;
   background: white;
 }
 
-.search-content {
+.mentors-search-content {
   max-width: 1200px;
   margin: 0 auto;
 }
 
-.search-header {
+.mentors-search-header {
   text-align: center;
   margin-bottom: 3rem;
 }
 
-.search-title {
+.mentors-search-title {
   font-size: 2.5rem;
   font-weight: 700;
   color: #1a1a1a;
   margin-bottom: 1rem;
 }
 
-.search-description {
+.mentors-search-description {
   font-size: 1.1rem;
   color: #666;
   max-width: 500px;
   margin: 0 auto;
 }
 
-.search-container {
+.mentors-search-container {
   display: flex;
   justify-content: center;
 }
 
-.search-form {
+.mentors-search-form {
   display: flex;
   gap: 1rem;
   align-items: center;
@@ -267,13 +166,13 @@
   flex-wrap: wrap;
 }
 
-.search-input-wrapper {
+.mentors-search-input-wrapper {
   position: relative;
   flex: 1;
   min-width: 280px;
 }
 
-.search-icon {
+.mentors-search-icon {
   position: absolute;
   left: 1rem;
   top: 50%;
@@ -284,7 +183,7 @@
   pointer-events: none;
 }
 
-.search-input {
+.mentors-search-input {
   width: 100%;
   padding: 1rem 1rem 1rem 3rem;
   border: 2px solid transparent;
@@ -295,17 +194,17 @@
   outline: none;
 }
 
-.search-input:focus {
+.mentors-search-input:focus {
   background: white;
   border-color: #667eea;
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
-.specialty-select {
+.mentors-specialty-select {
   padding: 1rem 1.5rem;
   border: 2px solid transparent;
   border-radius: 12px;
-  background: #f8f9fa;
+  background: hsl(210, 17%, 98%);
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -313,13 +212,13 @@
   min-width: 200px;
 }
 
-.specialty-select:focus {
+.mentors-specialty-select:focus {
   background: white;
   border-color: #667eea;
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
-.search-button {
+.mentors-search-button {
   padding: 1rem 2rem;
   background: rgb(1, 213, 43);
   /* border: 1px solid rgb(20, 170, 0); */
@@ -333,7 +232,7 @@
   white-space: nowrap;
 }
 
-.search-button:hover {
+.mentors-search-button:hover {
   scale: 0.98;
   background: rgb(0, 187, 37);
   /* background: linear-gradient(135deg, #aa3cff, #5849ff); */
@@ -585,7 +484,7 @@
 .success-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(145deg, rgb(159, 230, 255) 10%, rgb(255, 255, 255) 68%);
+  background: linear-gradient(145deg, rgb(164, 255, 255) 10%, rgb(255, 255, 255) 68%);
 }
 
 .success-content {
@@ -633,9 +532,9 @@
 }
 
 .stat-card {
-  background : linear-gradient(145deg, rgba(89, 151, 251, 0.856) 10%,  rgba(14, 98, 255, 0.863) 68%);
+  background : linear-gradient(145deg, rgba(208, 242, 255, 0.877) 10%,  rgb(238, 247, 255) 68%);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(42, 230, 251, 0.675);
+  border: 2px solid rgba(255, 255, 255, 0.932);
   border-radius: 40px;
   padding: 2rem;
   padding-left: 1rem;
@@ -649,13 +548,13 @@
 .stat-number {
   font-size: 3rem;
   font-weight: 800;
-  color: rgb(250, 227, 227);
+  color: rgba(255, 0, 0, 0.899);
   margin-bottom: 0.5rem;
   line-height: 1;
 }
 
 .stat-label {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(79, 79, 79, 0.8);
   font-size: 1.1rem;
   font-weight: 500;
 }
@@ -668,20 +567,21 @@
   background: white;
   color: rgb(0, 110, 255);
   border: 1px solid rgb(0, 110, 255);
-  padding: 1.25rem 3rem;
+  padding: 1.25rem 1.5rem;
   border-radius: 70px;
   font-size: 1.1rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.4s;
 }
 
 .cta-button:hover {
-  transform: translateY(-3px);
-  background: rgb(0, 198, 43);
-  scale: 1.029;
+  background: linear-gradient(135deg, #002fffd4 0%, #8000ffcd 100%);
+  scale: 1.04;
   color: white;
-  border: 1px solid rgb(167, 255, 186);
+  border-radius: 70px;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
 }
 
 /* Animations */

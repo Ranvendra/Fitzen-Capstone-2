@@ -1,13 +1,13 @@
-.stats-section {
+.home-stats-section {
     display: flex;
     justify-content: center;
     gap: 5rem;
     padding: 4rem 1rem;
-    background-color: #f9fbfd;
+    background-color: #f8fbff;
     flex-wrap: wrap;
   }
   
-  .stat-card {
+  .home-stat-card {
     background-color: #fff;
     border-radius: 1rem;
     padding: 2rem 2.5rem;
@@ -17,11 +17,11 @@
     transition: transform 0.3s ease;
   }
   
-  .stat-card:hover {
+  .home-stat-card:hover {
     transform: translateY(-6px);
   }
   
-  .stat-icon {
+  .home-stat-icon {
     background-color: #ede9fe;
     color: #5b21b6;
     font-size: 1.8rem;
@@ -33,14 +33,14 @@
     margin-bottom: 1rem;
   }
   
-  .stat-count {
+  .home-stat-count {
     font-size: 1.8rem;
     font-weight: 700;
     margin-bottom: 0.25rem;
-    color: #111827;
+    color: #002aff;
   }
   
-  .stat-label {
+  .home-stat-label {
     font-size: 1rem;
-    color: #6b7280;
+    color: #001105;
   }

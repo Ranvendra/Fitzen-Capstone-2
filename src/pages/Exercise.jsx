@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import "./Exercise.css"
 import {
   Search,
@@ -11,288 +11,330 @@ import {
   Award,
   ChevronLeft,
   ChevronRight,
-  Filter,
   Dumbbell,
   Activity,
   Flame,
+  Loader,
 } from "lucide-react";
 
-
+import Api from "../API/Api";
+import Key from "../API/Key";
 
 const ExercisePage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedDifficulty, setSelectedDifficulty] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const videosPerPage = 8;
+  const [exercises, setExercises] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [hasSearched, setHasSearched] = useState(false);
+  const [cache, setCache] = useState(new Map()); // Cache for API responses
+  const videosPerPage = 9;
 
-  const exercises = [
-    {
-      id: 1,
-      title: "Full Body HIIT Workout",
-      category: "Cardio",
-      difficulty: "Intermediate",
-      duration: "25 mins",
-      participants: "2.3k",
-      thumbnail: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=250&fit=crop",
-      instructor: "Sarah Johnson",
-      description: "High-intensity interval training for maximum calorie burn and strength building.",
-      videoUrl: "https://example.com/video1"
-    },
-    {
-      id: 2,
-      title: "Morning Yoga Flow",
-      category: "Yoga",
-      difficulty: "Beginner",
-      duration: "30 mins",
-      participants: "1.8k",
-      thumbnail: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=250&fit=crop",
-      instructor: "Meditation Master",
-      description: "Start your day with peaceful yoga movements and breathing exercises.",
-      videoUrl: "https://example.com/video2"
-    },
-    {
-      id: 3,
-      title: "Upper Body Strength",
-      category: "Strength",
-      difficulty: "Advanced",
-      duration: "40 mins",
-      participants: "1.5k",
-      thumbnail: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=400&h=250&fit=crop",
-      instructor: "Mike Rodriguez",
-      description: "Build powerful arms, chest, and back with progressive strength exercises.",
-      videoUrl: "https://example.com/video3"
-    },
-    {
-      id: 4,
-      title: "Core Blast Challenge",
-      category: "Core",
-      difficulty: "Intermediate",
-      duration: "20 mins",
-      participants: "3.1k",
-      thumbnail: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&h=250&fit=crop",
-      instructor: "Emma Chen",
-      description: "Intense core workout targeting abs, obliques, and lower back stability.",
-      videoUrl: "https://example.com/video4"
-    },
-    {
-      id: 5,
-      title: "Leg Day Power Session",
-      category: "Legs",
-      difficulty: "Advanced",
-      duration: "45 mins",
-      participants: "1.9k",
-      thumbnail: "https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=400&h=250&fit=crop",
-      instructor: "David Kim",
-      description: "Complete leg workout focusing on quads, hamstrings, glutes, and calves.",
-      videoUrl: "https://example.com/video5"
-    },
-    {
-      id: 6,
-      title: "Flexibility & Stretching",
-      category: "Flexibility",
-      difficulty: "Beginner",
-      duration: "15 mins",
-      participants: "2.7k",
-      thumbnail: "https://images.unsplash.com/photo-1506629905607-ce51d4d63ac8?w=400&h=250&fit=crop",
-      instructor: "Lisa Zhang",
-      description: "Improve flexibility and prevent injury with gentle stretching routines.",
-      videoUrl: "https://example.com/video6"
-    },
-    {
-      id: 7,
-      title: "Boxing Fundamentals",
-      category: "Cardio",
-      difficulty: "Intermediate",
-      duration: "35 mins",
-      participants: "1.4k",
-      thumbnail: "https://images.unsplash.com/photo-1549060279-7e168fcee0c2?w=400&h=250&fit=crop",
-      instructor: "Jake Williams",
-      description: "Learn proper boxing techniques while getting an amazing cardio workout.",
-      videoUrl: "https://example.com/video7"
-    },
-    {
-      id: 8,
-      title: "Pilates Core Flow",
-      category: "Pilates",
-      difficulty: "Intermediate",
-      duration: "28 mins",
-      participants: "2.2k",
-      thumbnail: "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&h=250&fit=crop",
-      instructor: "Anna Martinez",
-      description: "Pilates-based movements for core strength and body alignment.",
-      videoUrl: "https://example.com/video8"
-    },
-    {
-      id: 9,
-      title: "Dance Cardio Party",
-      category: "Dance",
-      difficulty: "Beginner",
-      duration: "30 mins",
-      participants: "4.2k",
-      thumbnail: "https://images.unsplash.com/photo-1594736797933-d0cccf7b79b4?w=400&h=250&fit=crop",
-      instructor: "Sophie Laurent",
-      description: "Fun dance moves that burn calories and boost your mood.",
-      videoUrl: "https://example.com/video9"
-    },
-    {
-      id: 10,
-      title: "Meditation & Mindfulness",
-      category: "Mental Wellness",
-      difficulty: "Beginner",
-      duration: "20 mins",
-      participants: "3.8k",
-      thumbnail: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=250&fit=crop",
-      instructor: "Dr. Rachel Green",
-      description: "Guided meditation for stress relief and mental clarity.",
-      videoUrl: "https://example.com/video10"
-    },
-    {
-      id: 11,
-      title: "Functional Movement",
-      category: "Functional",
-      difficulty: "Intermediate",
-      duration: "35 mins",
-      participants: "1.6k",
-      thumbnail: "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=400&h=250&fit=crop",
-      instructor: "Carlos Mendez",
-      description: "Improve daily movement patterns with functional exercise training.",
-      videoUrl: "https://example.com/video11"
-    },
-    {
-      id: 12,
-      title: "Power Yoga Flow",
-      category: "Yoga",
-      difficulty: "Advanced",
-      duration: "50 mins",
-      participants: "1.3k",
-      thumbnail: "https://images.unsplash.com/photo-1588286840104-8957b019727f?w=400&h=250&fit=crop",
-      instructor: "Maria Santos",
-      description: "Dynamic yoga sequences that build strength and flexibility.",
-      videoUrl: "https://example.com/video12"
-    },
-    {
-      id: 13,
-      title: "Beginner's Gym Guide",
-      category: "Strength",
-      difficulty: "Beginner",
-      duration: "25 mins",
-      participants: "5.1k",
-      thumbnail: "https://images.unsplash.com/photo-1534368270820-9de3d8053204?w=400&h=250&fit=crop",
-      instructor: "Tony Chang",
-      description: "Complete guide to gym equipment and basic strength training.",
-      videoUrl: "https://example.com/video13"
-    },
-    {
-      id: 14,
-      title: "Recovery & Mobility",
-      category: "Recovery",
-      difficulty: "Beginner",
-      duration: "18 mins",
-      participants: "2.9k",
-      thumbnail: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=250&fit=crop",
-      instructor: "Dr. Priya Patel",
-      description: "Essential recovery techniques and mobility exercises.",
-      videoUrl: "https://example.com/video14"
-    },
-    {
-      id: 15,
-      title: "Kettlebell Workout",
-      category: "Strength",
-      difficulty: "Intermediate",
-      duration: "30 mins",
-      participants: "1.7k",
-      thumbnail: "https://images.unsplash.com/photo-1517963879433-6ad2b056d712?w=400&h=250&fit=crop",
-      instructor: "Ryan O'Connor",
-      description: "Full-body kettlebell routine for strength and conditioning.",
-      videoUrl: "https://example.com/video15"
-    },
-    {
-      id: 16,
-      title: "Aqua Fitness",
-      category: "Aqua",
-      difficulty: "Beginner",
-      duration: "40 mins",
-      participants: "1.2k",
-      thumbnail: "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=400&h=250&fit=crop",
-      instructor: "Ahmed Hassan",
-      description: "Low-impact water exercises perfect for all fitness levels.",
-      videoUrl: "https://example.com/video16"
-    }
+  const YOUTUBE_API_KEY = Key;
+  const YOUTUBE_API_URL = Api;
+
+  const categories = [
+    { name: "Cardio", searchQuery: "cardio workout Exercise" },
+    { name: "Yoga", searchQuery: "yoga workout morning flow" },
+    { name: "Strength", searchQuery: "strength training workout gym" },
+    { name: "Core", searchQuery: "core workout abs exercise" },
+    { name: "Legs", searchQuery: "leg workout exercise training" },
+    { name: "Flexibility", searchQuery: "flexibility stretching workout" },
+    { name: "Pilates", searchQuery: "pilates workout exercise" },
+    { name: "Dance", searchQuery: "dance workout fitness cardio" },
+    { name: "Mental Wellness", searchQuery: "meditation mindfulness relaxation" },
+    { name: "Functional", searchQuery: "functional training workout" },
+    { name: "Recovery", searchQuery: "recovery stretching mobility workout" },
+    { name: "Aqua", searchQuery: "water aerobics aqua fitness" }
   ];
 
-  const categories = [...new Set(exercises.map(exercise => exercise.category))];
   const difficulties = ["Beginner", "Intermediate", "Advanced"];
 
+  // Memoized utility functions
+  const getDifficultyLevel = useCallback((duration, title, description) => {
+    const durationMinutes = parseDuration(duration);
+    const content = `${title} ${description}`.toLowerCase();
+    
+    if (content.includes('beginner') || content.includes('easy') || content.includes('basic')) {
+      return 'Beginner';
+    } else if (content.includes('advanced') || content.includes('expert') || content.includes('intense')) {
+      return 'Advanced';
+    } else if (durationMinutes > 45) {
+      return 'Advanced';
+    } else if (durationMinutes < 20) {
+      return 'Beginner';
+    } else {
+      return 'Intermediate';
+    }
+  }, []);
+
+  const parseDuration = useCallback((duration) => {
+    const match = duration.match(/PT(\d+H)?(\d+M)?(\d+S)?/);
+    const hours = (match[1] || '').replace('H', '') || 0;
+    const minutes = (match[2] || '').replace('M', '') || 0;
+    const seconds = (match[3] || '').replace('S', '') || 0;
+    return parseInt(hours) * 60 + parseInt(minutes) + Math.round(parseInt(seconds) / 60);
+  }, []);
+
+  const formatDuration = useCallback((duration) => {
+    const minutes = parseDuration(duration);
+    if (minutes >= 60) {
+      const hours = Math.floor(minutes / 60);
+      const remainingMinutes = minutes % 60;
+      return `${hours}h ${remainingMinutes}m`;
+    }
+    return `${minutes} mins`;
+  }, [parseDuration]);
+
+  const formatViewCount = useCallback((viewCount) => {
+    const count = parseInt(viewCount);
+    if (count >= 1000000) {
+      return `${(count / 1000000).toFixed(1)}M`;
+    } else if (count >= 1000) {
+      return `${(count / 1000).toFixed(1)}k`;
+    }
+    return count.toString();
+  }, []);
+
+  const getCategoryFromContent = useCallback((title, description) => {
+    const content = `${title} ${description}`.toLowerCase();
+    
+    for (const category of categories) {
+      const keywords = category.searchQuery.toLowerCase().split(' ');
+      if (keywords.some(keyword => content.includes(keyword))) {
+        return category.name;
+      }
+    }
+    return 'General Fitness';
+  }, [categories]);
+
+  const getInstructorName = useCallback((channelTitle) => {
+    return channelTitle
+      .replace(/fitness|workout|yoga|pilates|official/gi, '')
+      .trim() || channelTitle;
+  }, []);
+
+  // Optimized fetch function with caching
+  const fetchYouTubeVideos = useCallback(async (searchQuery = "workout fitness", maxResults = 25) => {
+    // Check cache first
+    const cacheKey = `${searchQuery}_${maxResults}`;
+    if (cache.has(cacheKey)) {
+      console.log('Using cached data for:', searchQuery);
+      setExercises(cache.get(cacheKey));
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+    
+    try {
+      // Search for videos with optimized parameters
+      const searchResponse = await fetch(
+        `${YOUTUBE_API_URL}/search?part=snippet&q=${encodeURIComponent(searchQuery)}&type=video&maxResults=${maxResults}&order=relevance&videoDuration=medium&videoDefinition=high&key=${YOUTUBE_API_KEY}`
+      );
+
+      if (!searchResponse.ok) {
+        throw new Error(`YouTube API Error: ${searchResponse.status}`);
+      }
+
+      const searchData = await searchResponse.json();
+      
+      if (!searchData.items || searchData.items.length === 0) {
+        setExercises([]);
+        return;
+      }
+
+      // Get video IDs for detailed information
+      const videoIds = searchData.items.map(item => item.id.videoId).join(',');
+      
+      // Fetch detailed video information
+      const detailsResponse = await fetch(
+        `${YOUTUBE_API_URL}/videos?part=snippet,contentDetails,statistics&id=${videoIds}&key=${YOUTUBE_API_KEY}`
+      );
+
+      if (!detailsResponse.ok) {
+        throw new Error(`YouTube API Error: ${detailsResponse.status}`);
+      }
+
+      const detailsData = await detailsResponse.json();
+
+      // Transform YouTube data
+      const exerciseVideos = detailsData.items.map((video) => {
+        const snippet = video.snippet;
+        const duration = video.contentDetails.duration;
+        const statistics = video.statistics;
+        
+        return {
+          id: video.id,
+          title: snippet.title,
+          category: getCategoryFromContent(snippet.title, snippet.description),
+          difficulty: getDifficultyLevel(duration, snippet.title, snippet.description),
+          duration: formatDuration(duration),
+          participants: formatViewCount(statistics.viewCount || 0),
+          thumbnail: snippet.thumbnails.high?.url || snippet.thumbnails.default.url,
+          instructor: getInstructorName(snippet.channelTitle),
+          description: snippet.description.substring(0, 150) + (snippet.description.length > 150 ? '...' : ''),
+          videoUrl: `https://www.youtube.com/watch?v=${video.id}`,
+          publishedAt: snippet.publishedAt,
+          channelTitle: snippet.channelTitle,
+          viewCount: statistics.viewCount || 0,
+          likeCount: statistics.likeCount || 0
+        };
+      });
+
+      // Cache the results
+      setCache(prev => new Map(prev).set(cacheKey, exerciseVideos));
+      setExercises(exerciseVideos);
+    } catch (err) {
+      console.error('Error fetching YouTube videos:', err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, [cache, YOUTUBE_API_KEY, YOUTUBE_API_URL, getCategoryFromContent, getDifficultyLevel, formatDuration, formatViewCount, getInstructorName]);
+
+  // Load initial videos only once
+  useEffect(() => {
+    if (!hasSearched) {
+      fetchYouTubeVideos("workout fitness", 20);
+      setHasSearched(true);
+    }
+  }, [fetchYouTubeVideos, hasSearched]);
+
+  // Handle search with debouncing
+  const handleSearch = useCallback(() => {
+    setCurrentPage(1);
+    
+    let searchQuery = "workout fitness";
+    
+    if (searchTerm.trim()) {
+      searchQuery = searchTerm.trim();
+    } else if (selectedCategory) {
+      const categoryData = categories.find(cat => cat.name === selectedCategory);
+      if (categoryData) {
+        searchQuery = categoryData.searchQuery;
+      }
+    }
+    
+    fetchYouTubeVideos(searchQuery, 25);
+  }, [searchTerm, selectedCategory, fetchYouTubeVideos, categories]);
+
+  // Handle category change
+  const handleCategoryChange = useCallback((category) => {
+    setSelectedCategory(category);
+    setCurrentPage(1);
+    
+    if (category) {
+      const categoryData = categories.find(cat => cat.name === category);
+      if (categoryData) {
+        fetchYouTubeVideos(categoryData.searchQuery, 25);
+      }
+    }
+  }, [fetchYouTubeVideos, categories]);
+
+  // Memoized filtered exercises
   const filteredExercises = useMemo(() => {
     return exercises.filter(exercise => {
-      const matchesSearch = 
+      const matchesSearch = !searchTerm || (
         exercise.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         exercise.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        exercise.instructor.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesCategory = selectedCategory === "" || exercise.category === selectedCategory;
-      const matchesDifficulty = selectedDifficulty === "" || exercise.difficulty === selectedDifficulty;
+        exercise.instructor.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      const matchesCategory = !selectedCategory || exercise.category === selectedCategory;
+      const matchesDifficulty = !selectedDifficulty || exercise.difficulty === selectedDifficulty;
       return matchesSearch && matchesCategory && matchesDifficulty;
     });
-  }, [searchTerm, selectedCategory, selectedDifficulty]);
+  }, [exercises, searchTerm, selectedCategory, selectedDifficulty]);
 
   const totalPages = Math.ceil(filteredExercises.length / videosPerPage);
   const startIndex = (currentPage - 1) * videosPerPage;
   const paginatedExercises = filteredExercises.slice(startIndex, startIndex + videosPerPage);
 
-  const handlePageChange = (page) => {
+  const handlePageChange = useCallback((page) => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  }, []);
 
-  const clearFilters = () => {
-    setSearchTerm("");
-    setSelectedCategory("");
-    setSelectedDifficulty("");
-    setCurrentPage(1);
-  };
+  const handleVideoClick = useCallback((videoUrl) => {
+    window.open(videoUrl, '_blank');
+  }, []);
+
+  // Handle Enter key press in search input
+  const handleKeyPress = useCallback((e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  }, [handleSearch]);
+
+  // Show API key warning if not configured
+  if (YOUTUBE_API_KEY === "YOUR_YOUTUBE_API_KEY_HERE") {
+    return (
+      <div className="exercise-page">
+        <div className="api-key-warning">
+          <div className="warning-content">
+            <h2 className="warning-title">YouTube API Key Required</h2>
+            <p className="warning-description">
+              Please replace "YOUR_YOUTUBE_API_KEY_HERE" with your actual YouTube API key in the component to load exercise videos.
+            </p>
+            <div className="warning-steps">
+              <h3>How to get your YouTube API key:</h3>
+              <ol>
+                <li>Go to Google Cloud Console</li>
+                <li>Create a new project or select existing one</li>
+                <li>Enable YouTube Data API v3</li>
+                <li>Create credentials (API Key)</li>
+                <li>Copy the API key and replace it in the code</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="exercise-page">
       {/* Hero Section */}
-      <div className="hero-section">
-        <div className="hero-overlay2"></div>
-        <div className="hero-background-blur"></div>
+      <div className="exercise-hero-section">
+        <div className="exercise-hero-overlay2"></div>
+        <div className="exercise-hero-background-blur"></div>
 
-        <div className="hero-content">
-          <div className="hero-badge">
-            <Dumbbell className="hero-badge-icon" />
+        <div className="exercise-hero-content">
+          <div className="exercise-hero-badge">
+            <Dumbbell className="exercise-hero-badge-icon" />
             <span>Exercise Library</span>
           </div>
 
-          <h1 className="hero-title">
+          <h1 className="exercise-hero-title">
             Transform Your Body & Mind
-            <span className="hero-title-gradient">With Expert Workouts</span>
+            <span className="exercise-hero-title-gradient">With Expert Workouts</span>
           </h1>
 
-          <p className="hero-description">
+          <p className="exercise-hero-description">
             Discover hundreds of professionally crafted workout videos designed to strengthen your body, 
             calm your mind, and elevate your overall wellness journey.
           </p>
 
-          <div className="hero-stats">
-            <div className="stat-item">
-              <div className="stat-number1">500+</div>
-              <div className="stat-label1">Video Workouts</div>
+          <div className="exercise-hero-stats">
+            <div className="exercise-stat-item">
+              <div className="exercise-stat-number">500+</div>
+              <div className="exercise-stat-label">Video Workouts</div>
             </div>
-            <div className="stat-item">
-              <div className="stat-number1">50k+</div>
-              <div className="stat-label1">Active Users</div>
+            <div className="exercise-stat-item">
+              <div className="exercise-stat-number">50k</div>
+              <div className="exercise-stat-label">Active Users</div>
             </div>
-            <div className="stat-item">
-              <div className="stat-number1">15</div>
-              <div className="stat-label1">Categories</div>
+            <div className="exercise-stat-item">
+              <div className="exercise-stat-number">{categories.length}</div>
+              <div className="exercise-stat-label">Categories</div>
             </div>
           </div>
         </div>
 
-        <div className="hero-bg-element-1"></div>
-        <div className="hero-bg-element-2"></div>
+        <div className="exercise-hero-bg-element-1"></div>
+        <div className="exercise-hero-bg-element-2"></div>
       </div>
 
       {/* Benefits Section */}
@@ -309,16 +351,6 @@ const ExercisePage = () => {
           </div>
 
           <div className="benefit-card">
-            <div className="benefit-icon benefit-icon-green">
-              <Heart className="icon" />
-            </div>
-            <h3 className="benefit-title">Mental Wellness</h3>
-            <p className="benefit-description">
-              Combine physical exercise with mindfulness practices for complete wellness.
-            </p>
-          </div>
-
-          <div className="benefit-card">
             <div className="benefit-icon benefit-icon-blue">
               <Activity className="icon" />
             </div>
@@ -327,47 +359,58 @@ const ExercisePage = () => {
               Monitor your fitness journey with detailed analytics and achievement tracking.
             </p>
           </div>
+
+          <div className="benefit-card">
+            <div className="benefit-icon benefit-icon-green">
+              <Heart className="icon" />
+            </div>
+            <h3 className="benefit-title">Mental Wellness</h3>
+            <p className="benefit-description">
+              Combine physical exercise with mindfulness practices for complete wellness.
+            </p>
+          </div>
         </div>
       </div>
 
       {/* Search Section */}
-      <div className="search-section">
-        <div className="search-content">
-          <div className="search-header">
-            <h2 className="search-title">Find Your Perfect Workout</h2>
-            <p className="search-description">
+      <div className="exercise-search-section">
+        <div className="exercise-search-content">
+          <div className="exercise-search-header">
+            <h2 className="exercise-search-title">Find Your Perfect Workout</h2>
+            <p className="exercise-search-description">
               Search through our extensive library of workouts by category, difficulty, or instructor.
             </p>
           </div>
 
-          <div className="search-container">
-            <div className="search-form">
-              <div className="search-input-wrapper">
-                <Search className="search-icon" />
+          <div className="exercise-search-container">
+            <div className="exercise-search-form">
+              <div className="exercise-search-input-wrapper">
+                <Search className="exercise-search-icon" />
                 <input
                   type="text"
-                  placeholder="Search workouts, categories, or instructors..."
+                  placeholder="Search workouts"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="search-input"
+                  onKeyPress={handleKeyPress}
+                  className="exercise-search-input"
                 />
               </div>
 
               <select
                 value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="filter-select"
+                onChange={(e) => handleCategoryChange(e.target.value)}
+                className="exercise-filter-select"
               >
                 <option value="">All Categories</option>
                 {categories.map(category => (
-                  <option key={category} value={category}>{category}</option>
+                  <option key={category.name} value={category.name}>{category.name}</option>
                 ))}
               </select>
 
               <select
                 value={selectedDifficulty}
                 onChange={(e) => setSelectedDifficulty(e.target.value)}
-                className="filter-select"
+                className="exercise-filter-select"
               >
                 <option value="">All Levels</option>
                 {difficulties.map(difficulty => (
@@ -375,27 +418,46 @@ const ExercisePage = () => {
                 ))}
               </select>
 
-              <button onClick={clearFilters} className="clear-button">
-                <Filter className="filter-icon" />
-                Clear
+              <button onClick={handleSearch} className="exercise-search-button">
+                Search
               </button>
             </div>
           </div>
 
-          <div className="results-info">
-            <p>Showing {paginatedExercises.length} of {filteredExercises.length} workouts</p>
-          </div>
+          
         </div>
       </div>
 
       {/* Video Tutorials Section */}
       <div className="videos-section">
+        {error && (
+          <div className="error-message">
+            <div className="error-content">
+              <h3 className="error-title">Error Loading Videos</h3>
+              <p className="error-description">{error}</p>
+              <button onClick={handleSearch} className="retry-button">
+                Try Again
+              </button>
+            </div>
+          </div>
+        )}
+
+        <div className="exercise-results-info">
+            <p>{`Showing ${paginatedExercises.length} of ${filteredExercises.length} workouts ->`}</p>
+            {loading && (
+              <div className="exercise-loading-indicator">
+                <Loader className="exercise-loading-spinner" />
+                <span>Loading workouts...</span>
+              </div>
+            )}
+          </div>
+
         <div className="videos-grid">
           {paginatedExercises.map(exercise => (
             <div key={exercise.id} className="video-card">
               <div className="video-thumbnail">
-                <img src={exercise.thumbnail} alt={exercise.title} />
-                <div className="play-overlay">
+                <img src={exercise.thumbnail} alt={exercise.title} className="thumbnail-image" />
+                <div className="play-overlay" onClick={() => handleVideoClick(exercise.videoUrl)}>
                   <Play className="play-icon" />
                 </div>
                 <div className="difficulty-badge" data-difficulty={exercise.difficulty.toLowerCase()}>
@@ -422,11 +484,14 @@ const ExercisePage = () => {
                   </div>
                   <div className="stat">
                     <Users className="stat-icon" />
-                    <span>{exercise.participants}</span>
+                    <span>{exercise.participants} views</span>
                   </div>
                 </div>
 
-                <button className="watch-button">
+                <button 
+                  className="watch-button"
+                  onClick={() => handleVideoClick(exercise.videoUrl)}
+                >
                   <Play className="watch-icon" />
                   Start Workout
                 </button>
@@ -435,18 +500,15 @@ const ExercisePage = () => {
           ))}
         </div>
 
-        {filteredExercises.length === 0 && (
+        {filteredExercises.length === 0 && !loading && !error && (
           <div className="no-results">
             <div className="no-results-icon">
               <Search className="search-empty-icon" />
             </div>
             <h3 className="no-results-title">No workouts found</h3>
             <p className="no-results-description">
-              Try adjusting your search criteria or browse all workouts.
+              Try adjusting your search criteria or browse different categories.
             </p>
-            <button onClick={clearFilters} className="reset-button">
-              Reset Filters
-            </button>
           </div>
         )}
 

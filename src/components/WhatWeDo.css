@@ -56,7 +56,7 @@
   }
   
   .icon-wrapper {
-    background: linear-gradient(145deg, #006aff, #9500ff);
+    background: linear-gradient(145deg, #006affc7, #9500ffd2);
     padding: 16px;
     border-radius: 50%;
     display: inline-flex;
@@ -69,10 +69,10 @@
   .feature-card h3 {
     font-size: 1.3rem;
     margin-bottom: 10px;
-    color: #0023e7;
+    color: rgb(0, 49, 227);
   }
   
   .feature-card p {
     font-size: 0.95rem;
-    color: #a6a6a6;
+    color: #878383;
   }

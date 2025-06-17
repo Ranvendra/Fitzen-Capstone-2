@@ -59,7 +59,7 @@
 
 /* Contact Info */
 .contact-info {
-  background: rgb(26, 80, 255);
+  background:linear-gradient(135deg, #002fffc4 0%, #8000ff 100%);
   padding: 3rem;
   border-radius: 40px;
   backdrop-filter: blur(20px);
@@ -106,16 +106,16 @@
 }
 
 .method-icon {
-  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
-  padding: 0.75rem;
-  border-radius: 12px;
+  background: linear-gradient(135deg,  #22ce7e, #00de34);
+  padding: 0.5rem;
+  border-radius: 50%;
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 48px;
-  height: 48px;
-  box-shadow: 0 4px 15px rgba(238, 90, 36, 0.3);
+  min-width: 52px;
+  height: 52px;
+  box-shadow: 0 4px 15px rgba(36, 238, 235, 0.3);
 }
 
 .method-info h3 {
@@ -220,7 +220,7 @@
 }
 
 .submit-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #002fffcf 0%, #8000ff 100%);
   color: white;
   border: none;
   padding: 1rem 2rem;
@@ -233,14 +233,14 @@
   justify-content: center;
   gap: 0.5rem;
   transition: all 0.3s ease;
-  width: 100%;
+  width: 50%;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
 
 .submit-btn:hover:not(:disabled) {
-  transform: translateY(-2px);
+  transform: translateY(-2.5px);
   box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
 }
 

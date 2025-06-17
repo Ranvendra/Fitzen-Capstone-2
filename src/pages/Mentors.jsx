@@ -288,72 +288,35 @@ const MentorsPage = () => {
         <div className="hero-bg-element-2"></div>
       </div>
 
-      {/* Why Mentors Matter Section */}
-      <div className="why-mentors-section">
-        <div className="benefits-grid">
-          <div className="benefit-card">
-            <div className="benefit-icon benefit-icon-purple">
-              <Award className="icon" />
-            </div>
-            <h3 className="benefit-title">Personalized Expertise</h3>
-            <p className="benefit-description">
-              Get customized training programs designed specifically for your
-              goals, fitness level, and lifestyle constraints.
-            </p>
-          </div>
-
-          <div className="benefit-card">
-            <div className="benefit-icon benefit-icon-blue">
-              <Heart className="icon" />
-            </div>
-            <h3 className="benefit-title">Holistic Approach</h3>
-            <p className="benefit-description">
-              Address both physical fitness and mental wellness with mentors who
-              understand the mind-body connection.
-            </p>
-          </div>
-
-          <div className="benefit-card">
-            <div className="benefit-icon benefit-icon-indigo">
-              <Zap className="icon" />
-            </div>
-            <h3 className="benefit-title">Proven Results</h3>
-            <p className="benefit-description">
-              Work with mentors who have helped thousands achieve their fitness
-              goals and maintain long-term success.
-            </p>
-          </div>
-        </div>
-      </div>
 
       {/* Search Section */}
-      <div className="search-section">
-        <div className="search-content">
-          <div className="search-header">
-            <h2 className="search-title">Find Your Perfect Mentor</h2>
-            <p className="search-description">
+      <div className="mentors-search-section">
+        <div className="mentors-search-content">
+          <div className="mentors-search-header">
+            <h2 className="mentors-search-title">Find Your Perfect Mentor</h2>
+            <p className="mentors-search-description">
               Search by name or specialty to discover the expert who aligns with
               your fitness goals.
             </p>
           </div>
 
-          <div className="search-container">
-            <div className="search-form">
-              <div className="search-input-wrapper">
-                <Search className="search-icon" />
+          <div className="mentors-search-container">
+            <div className="mentors-search-form">
+              <div className="mentors-search-input-wrapper">
+                <Search className="mentors-search-icon" />
                 <input
                   type="text"
                   placeholder="Search by mentor name or specialty..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="search-input"
+                  className="mentors-search-input"
                 />
               </div>
 
               <select
                 value={selectedSpecialty}
                 onChange={(e) => setSelectedSpecialty(e.target.value)}
-                className="specialty-select"
+                className="mentors-specialty-select"
               >
                 <option value="">All Specialties</option>
                 {specialties.map((specialty) => (
@@ -363,7 +326,7 @@ const MentorsPage = () => {
                 ))}
               </select>
 
-              <button onClick={handleSearch} className="search-button">
+              <button onClick={handleSearch} className="mentors-search-button">
                 Search
               </button>
             </div>
@@ -464,16 +427,21 @@ const MentorsPage = () => {
             </p>
           </div>
 
+          
+
           <div className="stats-grid">
+
+            <div className="stat-card">
+              <div className="stat-number">4.8★</div>
+              <div className="stat-label">Average Rating</div>
+            </div>
+
             <div className="stat-card">
               <div className="stat-number">15,000+</div>
               <div className="stat-label">Success Stories</div>
             </div>
 
-            <div className="stat-card">
-              <div className="stat-number">4.8 ★</div>
-              <div className="stat-label">Average Rating</div>
-            </div>
+            
 
             <div className="stat-card">
               <div className="stat-number">98%</div>
