@@ -3,7 +3,6 @@ import StatsSection from './StatsSection'
 import WhatWeDo from './WhatWeDo'
 import Experience from './Experience'
 import NewsletterSection from './NewsletterSection'
-import Footer from './Footer'
 
 function Body() {
   return (
@@ -14,7 +13,6 @@ function Body() {
       <Experience/>
       <StatsSection/>
       <NewsletterSection/>
-      <Footer/>
     </div>
   )
 }

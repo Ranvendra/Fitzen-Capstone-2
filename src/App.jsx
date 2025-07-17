@@ -9,6 +9,7 @@ import ExercisePage from './pages/Exercise'
 import Error from './components/ErrorPage'
 import './App.css'
 import ScrollToTop from './components/ScrollToTop'
+import Footer from "./components/Footer"
 
 const AppLayout = () => {
   return (
@@ -16,9 +17,7 @@ const AppLayout = () => {
       <ScrollToTop />
       <Navbar />
       <Outlet /> {/* This is where nested routes render */}
-      <div className="footer-bottom">
-Copyright © 2025 Fitzen. All rights reserved.
-</div>
+      <Footer/>
     </div>
   )
 }

@@ -1,5 +1,4 @@
-import React from 'react';
-import './Footer.css';
+import "./Footer.css"
 import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 
 const Footer = () => {
@@ -41,9 +40,9 @@ const Footer = () => {
 
     </footer>
 
-{/* <div className="footer-bottom">
+<div className="footer-bottom">
 Copyright © 2025 Fitzen. All rights reserved.
-</div> */}
+</div>
 </>
   );
 };
