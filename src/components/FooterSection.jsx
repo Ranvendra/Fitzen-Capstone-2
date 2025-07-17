@@ -1,7 +1,7 @@
-import "./Footer.css"
+import './FooterSection.css';
 import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 
-const Footer = () => {
+const FooterSection = () => {
   return (
     <>
     <footer className="fitzen-footer">
@@ -47,4 +47,4 @@ Copyright © 2025 Fitzen. All rights reserved.
   );
 };
 
-export default Footer;
+export default FooterSection;

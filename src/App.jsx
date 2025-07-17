@@ -9,7 +9,7 @@ import ExercisePage from './pages/Exercise'
 import Error from './components/ErrorPage'
 import './App.css'
 import ScrollToTop from './components/ScrollToTop'
-import Footer from "./components/Footer"
+import FooterSection from './components/FooterSection'
 
 const AppLayout = () => {
   return (
@@ -17,7 +17,7 @@ const AppLayout = () => {
       <ScrollToTop />
       <Navbar />
       <Outlet /> {/* This is where nested routes render */}
-      <Footer/>
+      <FooterSection/>
     </div>
   )
 }
