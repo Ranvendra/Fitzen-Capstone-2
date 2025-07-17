@@ -8,10 +8,12 @@ import ContactPage from './pages/Contact'
 import ExercisePage from './pages/Exercise'
 import Error from './components/ErrorPage'
 import './App.css'
+import ScrollToTop from './components/ScrollToTop'
 
 const AppLayout = () => {
   return (
     <div className='app'>
+      <ScrollToTop />
       <Navbar />
       <Outlet /> {/* This is where nested routes render */}
       <div className="footer-bottom">
