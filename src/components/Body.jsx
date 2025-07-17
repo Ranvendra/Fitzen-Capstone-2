@@ -2,7 +2,7 @@ import HeroImages from './HeroImages'
 import StatsSection from './StatsSection'
 import WhatWeDo from './WhatWeDo'
 import Experience from './Experience'
-import NewsletterSection from './NewsLetterSection'
+import NewsletterSection from './NewsletterSection'
 import Footer from './Footer'
 
 function Body() {
