@@ -11,6 +11,10 @@ import './App.css'
 import ScrollToTop from './components/ScrollToTop'
 import FooterSection from './components/FooterSection'
 
+import Signup from './components/Signup';  // Adjust if Signup is in components/
+import Login from './components/Login';
+
+
 const AppLayout = () => {
   return (
     <div className='app'>
@@ -48,6 +52,16 @@ const appRouter = createBrowserRouter([
         element: <ContactPage/>
 
       }
+      ,
+      {
+        path: "/login",
+        element: <Login />
+      },
+      {
+        path: "/signup",
+        element: <Signup />
+      }
+      
       // Add more nested routes here if needed
     ],
     errorElement: <Error/>
