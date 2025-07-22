@@ -111,6 +111,8 @@
     padding: 8px;
     border: none;
     font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 2px;
     
   }
 
@@ -124,6 +126,6 @@
 
   .profile-circle{
      height: 40px;
-    width: 40px;
+    width: 41px;
     border-radius: 50%;
   }

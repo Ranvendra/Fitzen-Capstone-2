@@ -90,7 +90,7 @@ const ContactPage = () => {
               </div>
               <div className="method-info">
                 <h3>Email Us</h3>
-                <p>hello@fitzen.app</p>
+                <p>support@fitzen.app</p>
               </div>
             </div>
             
@@ -100,7 +100,7 @@ const ContactPage = () => {
               </div>
               <div className="method-info">
                 <h3>Call Us</h3>
-                <p>+1 (555) 123-4567</p>
+                <p>+91 9876543210</p>
               </div>
             </div>
             
@@ -110,7 +110,7 @@ const ContactPage = () => {
               </div>
               <div className="method-info">
                 <h3>Visit Us</h3>
-                <p>123 Fitness Street<br />Health City, HC 12345</p>
+                <p>Rishihood University<br />Delhi NCR, India</p>
               </div>
             </div>
           </div>

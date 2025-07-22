@@ -67,6 +67,10 @@
   .footer-links a:hover {
     color: #fff;
   }
+
+  .quickLinks:hover {
+    border-bottom: 1px solid white;
+  }
   
   .footer-contact p {
     margin: 6px 0;

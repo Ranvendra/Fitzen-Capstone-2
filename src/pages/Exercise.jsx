@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
-import "./Exercise.css"
+import "./Exercise.css";
 import {
   Search,
   Play,
@@ -29,7 +29,7 @@ const ExercisePage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [hasSearched, setHasSearched] = useState(false);
-  const [cache, setCache] = useState(new Map()); // Cache for API responses
+  const [cache, setCache] = useState(new Map());
   const videosPerPage = 9;
 
   const YOUTUBE_API_KEY = Key;
@@ -39,54 +39,58 @@ const ExercisePage = () => {
     { name: "Cardio", searchQuery: "cardio workout Exercise" },
     { name: "Yoga", searchQuery: "yoga workout morning flow" },
     { name: "Strength", searchQuery: "strength training workout gym" },
-    { name: "Core", searchQuery: "core workout abs exercise" },
-    { name: "Legs", searchQuery: "leg workout exercise training" },
-    { name: "Flexibility", searchQuery: "flexibility stretching workout" },
-    { name: "Pilates", searchQuery: "pilates workout exercise" },
-    { name: "Dance", searchQuery: "dance workout fitness cardio" },
-    { name: "Mental Wellness", searchQuery: "meditation mindfulness relaxation" },
-    { name: "Functional", searchQuery: "functional training workout" },
     { name: "Recovery", searchQuery: "recovery stretching mobility workout" },
-    { name: "Aqua", searchQuery: "water aerobics aqua fitness" }
   ];
 
-  const difficulties = ["Beginner", "Intermediate", "Advanced"];
-
-  // Memoized utility functions
   const getDifficultyLevel = useCallback((duration, title, description) => {
     const durationMinutes = parseDuration(duration);
     const content = `${title} ${description}`.toLowerCase();
-    
-    if (content.includes('beginner') || content.includes('easy') || content.includes('basic')) {
-      return 'Beginner';
-    } else if (content.includes('advanced') || content.includes('expert') || content.includes('intense')) {
-      return 'Advanced';
+
+    if (
+      content.includes("beginner") ||
+      content.includes("easy") ||
+      content.includes("basic")
+    ) {
+      return "Beginner";
+    } else if (
+      content.includes("advanced") ||
+      content.includes("expert") ||
+      content.includes("intense")
+    ) {
+      return "Advanced";
     } else if (durationMinutes > 45) {
-      return 'Advanced';
+      return "Advanced";
     } else if (durationMinutes < 20) {
-      return 'Beginner';
+      return "Beginner";
     } else {
-      return 'Intermediate';
+      return "Intermediate";
     }
   }, []);
 
   const parseDuration = useCallback((duration) => {
     const match = duration.match(/PT(\d+H)?(\d+M)?(\d+S)?/);
-    const hours = (match[1] || '').replace('H', '') || 0;
-    const minutes = (match[2] || '').replace('M', '') || 0;
-    const seconds = (match[3] || '').replace('S', '') || 0;
-    return parseInt(hours) * 60 + parseInt(minutes) + Math.round(parseInt(seconds) / 60);
+    const hours = (match[1] || "").replace("H", "") || 0;
+    const minutes = (match[2] || "").replace("M", "") || 0;
+    const seconds = (match[3] || "").replace("S", "") || 0;
+    return (
+      parseInt(hours) * 60 +
+      parseInt(minutes) +
+      Math.round(parseInt(seconds) / 60)
+    );
   }, []);
 
-  const formatDuration = useCallback((duration) => {
-    const minutes = parseDuration(duration);
-    if (minutes >= 60) {
-      const hours = Math.floor(minutes / 60);
-      const remainingMinutes = minutes % 60;
-      return `${hours}h ${remainingMinutes}m`;
-    }
-    return `${minutes} mins`;
-  }, [parseDuration]);
+  const formatDuration = useCallback(
+    (duration) => {
+      const minutes = parseDuration(duration);
+      if (minutes >= 60) {
+        const hours = Math.floor(minutes / 60);
+        const remainingMinutes = minutes % 60;
+        return `${hours}h ${remainingMinutes}m`;
+      }
+      return `${minutes} mins`;
+    },
+    [parseDuration]
+  );
 
   const formatViewCount = useCallback((viewCount) => {
     const count = parseInt(viewCount);
@@ -98,104 +102,127 @@ const ExercisePage = () => {
     return count.toString();
   }, []);
 
-  const getCategoryFromContent = useCallback((title, description) => {
-    const content = `${title} ${description}`.toLowerCase();
-    
-    for (const category of categories) {
-      const keywords = category.searchQuery.toLowerCase().split(' ');
-      if (keywords.some(keyword => content.includes(keyword))) {
-        return category.name;
+  const getCategoryFromContent = useCallback(
+    (title, description) => {
+      const content = `${title} ${description}`.toLowerCase();
+
+      for (const category of categories) {
+        const keywords = category.searchQuery.toLowerCase().split(" ");
+        if (keywords.some((keyword) => content.includes(keyword))) {
+          return category.name;
+        }
       }
-    }
-    return 'General Fitness';
-  }, [categories]);
+      return "General Fitness";
+    },
+    [categories]
+  );
 
   const getInstructorName = useCallback((channelTitle) => {
-    return channelTitle
-      .replace(/fitness|workout|yoga|pilates|official/gi, '')
-      .trim() || channelTitle;
+    return (
+      channelTitle
+        .replace(/fitness|workout|yoga|pilates|official/gi, "")
+        .trim() || channelTitle
+    );
   }, []);
 
-  // Optimized fetch function with caching
-  const fetchYouTubeVideos = useCallback(async (searchQuery = "workout fitness", maxResults = 25) => {
-    // Check cache first
-    const cacheKey = `${searchQuery}_${maxResults}`;
-    if (cache.has(cacheKey)) {
-      console.log('Using cached data for:', searchQuery);
-      setExercises(cache.get(cacheKey));
-      return;
-    }
-
-    setLoading(true);
-    setError(null);
-    
-    try {
-      // Search for videos with optimized parameters
-      const searchResponse = await fetch(
-        `${YOUTUBE_API_URL}/search?part=snippet&q=${encodeURIComponent(searchQuery)}&type=video&maxResults=${maxResults}&order=relevance&videoDuration=medium&videoDefinition=high&key=${YOUTUBE_API_KEY}`
-      );
-
-      if (!searchResponse.ok) {
-        throw new Error(`YouTube API Error: ${searchResponse.status}`);
-      }
-
-      const searchData = await searchResponse.json();
-      
-      if (!searchData.items || searchData.items.length === 0) {
-        setExercises([]);
+  const fetchYouTubeVideos = useCallback(
+    async (searchQuery = "workout fitness", maxResults = 25) => {
+      const cacheKey = `${searchQuery}_${maxResults}`;
+      if (cache.has(cacheKey)) {
+        console.log("Using cached data for:", searchQuery);
+        setExercises(cache.get(cacheKey));
         return;
       }
 
-      // Get video IDs for detailed information
-      const videoIds = searchData.items.map(item => item.id.videoId).join(',');
-      
-      // Fetch detailed video information
-      const detailsResponse = await fetch(
-        `${YOUTUBE_API_URL}/videos?part=snippet,contentDetails,statistics&id=${videoIds}&key=${YOUTUBE_API_KEY}`
-      );
+      setLoading(true);
+      setError(null);
 
-      if (!detailsResponse.ok) {
-        throw new Error(`YouTube API Error: ${detailsResponse.status}`);
+      try {
+        const searchResponse = await fetch(
+          `${YOUTUBE_API_URL}/search?part=snippet&q=${encodeURIComponent(
+            searchQuery
+          )}&type=video&maxResults=${maxResults}&order=relevance&videoDuration=medium&videoDefinition=high&key=${YOUTUBE_API_KEY}`
+        );
+
+        if (!searchResponse.ok) {
+          throw new Error(`YouTube API Error: ${searchResponse.status}`);
+        }
+
+        const searchData = await searchResponse.json();
+
+        if (!searchData.items || searchData.items.length === 0) {
+          setExercises([]);
+          return;
+        }
+
+        const videoIds = searchData.items
+          .map((item) => item.id.videoId)
+          .join(",");
+
+        const detailsResponse = await fetch(
+          `${YOUTUBE_API_URL}/videos?part=snippet,contentDetails,statistics&id=${videoIds}&key=${YOUTUBE_API_KEY}`
+        );
+
+        if (!detailsResponse.ok) {
+          throw new Error(`YouTube API Error: ${detailsResponse.status}`);
+        }
+
+        const detailsData = await detailsResponse.json();
+
+        const exerciseVideos = detailsData.items.map((video) => {
+          const snippet = video.snippet;
+          const duration = video.contentDetails.duration;
+          const statistics = video.statistics;
+
+          return {
+            id: video.id,
+            title: snippet.title,
+            category: getCategoryFromContent(
+              snippet.title,
+              snippet.description
+            ),
+            difficulty: getDifficultyLevel(
+              duration,
+              snippet.title,
+              snippet.description
+            ),
+            duration: formatDuration(duration),
+            participants: formatViewCount(statistics.viewCount || 0),
+            thumbnail:
+              snippet.thumbnails.high?.url || snippet.thumbnails.default.url,
+            instructor: getInstructorName(snippet.channelTitle),
+            description:
+              snippet.description.substring(0, 150) +
+              (snippet.description.length > 150 ? "..." : ""),
+            videoUrl: `https://www.youtube.com/watch?v=${video.id}`,
+            publishedAt: snippet.publishedAt,
+            channelTitle: snippet.channelTitle,
+            viewCount: statistics.viewCount || 0,
+            likeCount: statistics.likeCount || 0,
+          };
+        });
+
+        setCache((prev) => new Map(prev).set(cacheKey, exerciseVideos));
+        setExercises(exerciseVideos);
+      } catch (err) {
+        console.error("Error fetching YouTube videos:", err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
       }
+    },
+    [
+      cache,
+      YOUTUBE_API_KEY,
+      YOUTUBE_API_URL,
+      getCategoryFromContent,
+      getDifficultyLevel,
+      formatDuration,
+      formatViewCount,
+      getInstructorName,
+    ]
+  );
 
-      const detailsData = await detailsResponse.json();
-
-      // Transform YouTube data
-      const exerciseVideos = detailsData.items.map((video) => {
-        const snippet = video.snippet;
-        const duration = video.contentDetails.duration;
-        const statistics = video.statistics;
-        
-        return {
-          id: video.id,
-          title: snippet.title,
-          category: getCategoryFromContent(snippet.title, snippet.description),
-          difficulty: getDifficultyLevel(duration, snippet.title, snippet.description),
-          duration: formatDuration(duration),
-          participants: formatViewCount(statistics.viewCount || 0),
-          thumbnail: snippet.thumbnails.high?.url || snippet.thumbnails.default.url,
-          instructor: getInstructorName(snippet.channelTitle),
-          description: snippet.description.substring(0, 150) + (snippet.description.length > 150 ? '...' : ''),
-          videoUrl: `https://www.youtube.com/watch?v=${video.id}`,
-          publishedAt: snippet.publishedAt,
-          channelTitle: snippet.channelTitle,
-          viewCount: statistics.viewCount || 0,
-          likeCount: statistics.likeCount || 0
-        };
-      });
-
-      // Cache the results
-      setCache(prev => new Map(prev).set(cacheKey, exerciseVideos));
-      setExercises(exerciseVideos);
-    } catch (err) {
-      console.error('Error fetching YouTube videos:', err);
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  }, [cache, YOUTUBE_API_KEY, YOUTUBE_API_URL, getCategoryFromContent, getDifficultyLevel, formatDuration, formatViewCount, getInstructorName]);
-
-  // Load initial videos only once
   useEffect(() => {
     if (!hasSearched) {
       fetchYouTubeVideos("workout fitness", 20);
@@ -203,72 +230,80 @@ const ExercisePage = () => {
     }
   }, [fetchYouTubeVideos, hasSearched]);
 
-  // Handle search with debouncing
   const handleSearch = useCallback(() => {
     setCurrentPage(1);
-    
+
     let searchQuery = "workout fitness";
-    
+
     if (searchTerm.trim()) {
       searchQuery = searchTerm.trim();
     } else if (selectedCategory) {
-      const categoryData = categories.find(cat => cat.name === selectedCategory);
+      const categoryData = categories.find(
+        (cat) => cat.name === selectedCategory
+      );
       if (categoryData) {
         searchQuery = categoryData.searchQuery;
       }
     }
-    
+
     fetchYouTubeVideos(searchQuery, 25);
   }, [searchTerm, selectedCategory, fetchYouTubeVideos, categories]);
 
-  // Handle category change
-  const handleCategoryChange = useCallback((category) => {
-    setSelectedCategory(category);
-    setCurrentPage(1);
-    
-    if (category) {
-      const categoryData = categories.find(cat => cat.name === category);
-      if (categoryData) {
-        fetchYouTubeVideos(categoryData.searchQuery, 25);
-      }
-    }
-  }, [fetchYouTubeVideos, categories]);
+  const handleCategoryChange = useCallback(
+    (category) => {
+      setSelectedCategory(category);
+      setCurrentPage(1);
 
-  // Memoized filtered exercises
+      if (category) {
+        const categoryData = categories.find((cat) => cat.name === category);
+        if (categoryData) {
+          fetchYouTubeVideos(categoryData.searchQuery, 25);
+        }
+      }
+    },
+    [fetchYouTubeVideos, categories]
+  );
+
   const filteredExercises = useMemo(() => {
-    return exercises.filter(exercise => {
-      const matchesSearch = !searchTerm || (
+    return exercises.filter((exercise) => {
+      const matchesSearch =
+        !searchTerm ||
         exercise.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         exercise.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        exercise.instructor.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      const matchesCategory = !selectedCategory || exercise.category === selectedCategory;
-      const matchesDifficulty = !selectedDifficulty || exercise.difficulty === selectedDifficulty;
+        exercise.instructor.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesCategory =
+        !selectedCategory || exercise.category === selectedCategory;
+      const matchesDifficulty =
+        !selectedDifficulty || exercise.difficulty === selectedDifficulty;
       return matchesSearch && matchesCategory && matchesDifficulty;
     });
   }, [exercises, searchTerm, selectedCategory, selectedDifficulty]);
 
   const totalPages = Math.ceil(filteredExercises.length / videosPerPage);
   const startIndex = (currentPage - 1) * videosPerPage;
-  const paginatedExercises = filteredExercises.slice(startIndex, startIndex + videosPerPage);
+  const paginatedExercises = filteredExercises.slice(
+    startIndex,
+    startIndex + videosPerPage
+  );
 
   const handlePageChange = useCallback((page) => {
     setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
   const handleVideoClick = useCallback((videoUrl) => {
-    window.open(videoUrl, '_blank');
+    window.open(videoUrl, "_blank");
   }, []);
 
-  // Handle Enter key press in search input
-  const handleKeyPress = useCallback((e) => {
-    if (e.key === 'Enter') {
-      handleSearch();
-    }
-  }, [handleSearch]);
+  const handleKeyPress = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        handleSearch();
+      }
+    },
+    [handleSearch]
+  );
 
-  // Show API key warning if not configured
   if (YOUTUBE_API_KEY === "YOUR_YOUTUBE_API_KEY_HERE") {
     return (
       <div className="exercise-page">
@@ -276,7 +311,8 @@ const ExercisePage = () => {
           <div className="warning-content">
             <h2 className="warning-title">YouTube API Key Required</h2>
             <p className="warning-description">
-              Please replace "YOUR_YOUTUBE_API_KEY_HERE" with your actual YouTube API key in the component to load exercise videos.
+              Please replace "YOUR_YOUTUBE_API_KEY_HERE" with your actual
+              YouTube API key in the component to load exercise videos.
             </p>
             <div className="warning-steps">
               <h3>How to get your YouTube API key:</h3>
@@ -296,7 +332,6 @@ const ExercisePage = () => {
 
   return (
     <div className="exercise-page">
-      {/* Hero Section */}
       <div className="exercise-hero-section">
         <div className="exercise-hero-overlay2"></div>
         <div className="exercise-hero-background-blur"></div>
@@ -309,12 +344,15 @@ const ExercisePage = () => {
 
           <h1 className="exercise-hero-title">
             Transform Your Body & Mind
-            <span className="exercise-hero-title-gradient">With Expert Workouts</span>
+            <span className="exercise-hero-title-gradient">
+              With Expert Workouts
+            </span>
           </h1>
 
           <p className="exercise-hero-description">
-            Discover hundreds of professionally crafted workout videos designed to strengthen your body, 
-            calm your mind, and elevate your overall wellness journey.
+            Discover hundreds of professionally crafted workout videos designed
+            to strengthen your body, calm your mind, and elevate your overall
+            wellness journey.
           </p>
 
           <div className="exercise-hero-stats">
@@ -337,7 +375,6 @@ const ExercisePage = () => {
         <div className="exercise-hero-bg-element-2"></div>
       </div>
 
-      {/* Benefits Section */}
       <div className="benefits-section">
         <div className="benefits-grid">
           <div className="benefit-card">
@@ -346,7 +383,8 @@ const ExercisePage = () => {
             </div>
             <h3 className="benefit-title">Burn Calories</h3>
             <p className="benefit-description">
-              High-intensity workouts designed to maximize calorie burn and boost your metabolism.
+              High-intensity workouts designed to maximize calorie burn and
+              boost your metabolism.
             </p>
           </div>
 
@@ -356,7 +394,8 @@ const ExercisePage = () => {
             </div>
             <h3 className="benefit-title">Track Progress</h3>
             <p className="benefit-description">
-              Monitor your fitness journey with detailed analytics and achievement tracking.
+              Monitor your fitness journey with detailed analytics and
+              achievement tracking.
             </p>
           </div>
 
@@ -366,19 +405,20 @@ const ExercisePage = () => {
             </div>
             <h3 className="benefit-title">Mental Wellness</h3>
             <p className="benefit-description">
-              Combine physical exercise with mindfulness practices for complete wellness.
+              Combine physical exercise with mindfulness practices for complete
+              wellness.
             </p>
           </div>
         </div>
       </div>
 
-      {/* Search Section */}
       <div className="exercise-search-section">
         <div className="exercise-search-content">
           <div className="exercise-search-header">
             <h2 className="exercise-search-title">Find Your Perfect Workout</h2>
             <p className="exercise-search-description">
-              Search through our extensive library of workouts by category, difficulty, or instructor.
+              Search through our extensive library of workouts by category,
+              difficulty, or instructor.
             </p>
           </div>
 
@@ -402,19 +442,10 @@ const ExercisePage = () => {
                 className="exercise-filter-select"
               >
                 <option value="">All Categories</option>
-                {categories.map(category => (
-                  <option key={category.name} value={category.name}>{category.name}</option>
-                ))}
-              </select>
-
-              <select
-                value={selectedDifficulty}
-                onChange={(e) => setSelectedDifficulty(e.target.value)}
-                className="exercise-filter-select"
-              >
-                <option value="">All Levels</option>
-                {difficulties.map(difficulty => (
-                  <option key={difficulty} value={difficulty}>{difficulty}</option>
+                {categories.map((category) => (
+                  <option key={category.name} value={category.name}>
+                    {category.name}
+                  </option>
                 ))}
               </select>
 
@@ -423,12 +454,9 @@ const ExercisePage = () => {
               </button>
             </div>
           </div>
-
-          
         </div>
       </div>
 
-      {/* Video Tutorials Section */}
       <div className="videos-section">
         {error && (
           <div className="error-message">
@@ -443,24 +471,34 @@ const ExercisePage = () => {
         )}
 
         <div className="exercise-results-info">
-            <p>{`Showing ${paginatedExercises.length} of ${filteredExercises.length} workouts ->`}</p>
-            {loading && (
-              <div className="exercise-loading-indicator">
-                <Loader className="exercise-loading-spinner" />
-                <span>Loading workouts...</span>
-              </div>
-            )}
-          </div>
+          <p>{`Showing ${paginatedExercises.length} of ${filteredExercises.length} workouts ->`}</p>
+          {loading && (
+            <div className="exercise-loading-indicator">
+              <Loader className="exercise-loading-spinner" />
+              <span>Loading workouts...</span>
+            </div>
+          )}
+        </div>
 
         <div className="videos-grid">
-          {paginatedExercises.map(exercise => (
+          {paginatedExercises.map((exercise) => (
             <div key={exercise.id} className="video-card">
               <div className="video-thumbnail">
-                <img src={exercise.thumbnail} alt={exercise.title} className="thumbnail-image" />
-                <div className="play-overlay" onClick={() => handleVideoClick(exercise.videoUrl)}>
+                <img
+                  src={exercise.thumbnail}
+                  alt={exercise.title}
+                  className="thumbnail-image"
+                />
+                <div
+                  className="play-overlay"
+                  onClick={() => handleVideoClick(exercise.videoUrl)}
+                >
                   <Play className="play-icon" />
                 </div>
-                <div className="difficulty-badge" data-difficulty={exercise.difficulty.toLowerCase()}>
+                <div
+                  className="difficulty-badge"
+                  data-difficulty={exercise.difficulty.toLowerCase()}
+                >
                   {exercise.difficulty}
                 </div>
               </div>
@@ -488,7 +526,7 @@ const ExercisePage = () => {
                   </div>
                 </div>
 
-                <button 
+                <button
                   className="watch-button"
                   onClick={() => handleVideoClick(exercise.videoUrl)}
                 >
@@ -512,7 +550,6 @@ const ExercisePage = () => {
           </div>
         )}
 
-        {/* Pagination */}
         {totalPages > 1 && (
           <div className="pagination">
             <button
@@ -525,15 +562,19 @@ const ExercisePage = () => {
             </button>
 
             <div className="pagination-numbers">
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
-                <button
-                  key={page}
-                  onClick={() => handlePageChange(page)}
-                  className={`pagination-number ${currentPage === page ? 'active' : ''}`}
-                >
-                  {page}
-                </button>
-              ))}
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                (page) => (
+                  <button
+                    key={page}
+                    onClick={() => handlePageChange(page)}
+                    className={`pagination-number ${
+                      currentPage === page ? "active" : ""
+                    }`}
+                  >
+                    {page}
+                  </button>
+                )
+              )}
             </div>
 
             <button
@@ -548,7 +589,6 @@ const ExercisePage = () => {
         )}
       </div>
 
-      {/* CTA Section */}
       <div className="cta-section">
         <div className="cta-overlay"></div>
         <div className="cta-content">
@@ -558,8 +598,8 @@ const ExercisePage = () => {
               <span className="cta-title-accent"> Fitness Journey?</span>
             </h2>
             <p className="cta-description">
-              Join thousands of people who have already transformed their lives through Fitzen. 
-              Your body and mind will thank you.
+              Join thousands of people who have already transformed their lives
+              through Fitzen. Your body and mind will thank you.
             </p>
           </div>
 
@@ -579,12 +619,10 @@ const ExercisePage = () => {
           </div>
 
           <div className="cta-actions">
-            <button className="primary-cta-button">
-              Start Free Trial →
-            </button>
-            <button className="secondary-cta-button">
+            <a href="./signup"><button className="primary-cta-button">Start Free Trial →</button></a>
+            <a href="./exercise"><button className="secondary-cta-button">
               Browse All Workouts
-            </button>
+            </button></a>
           </div>
         </div>
       </div>

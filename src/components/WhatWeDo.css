@@ -1,5 +1,5 @@
 .what-we-do-section {
-    background: linear-gradient(135deg, #0044ffc9, #7f17ffc7, #ac0df6d1);
+    background: linear-gradient(135deg, #0044ffdc, #7f17ffdc, #ae00ff);
     color: white;
     padding: 80px 20px;
     position: relative;
@@ -26,9 +26,9 @@
   }
   
   .section-subtitle {
-    font-size: 1.2rem;
-    color: #e0d7ff;
-    max-width: 700px;
+    font-size: 1rem;
+    color: #f4f1ff;
+    max-width: 580px;
     margin: 0 auto 60px;
   }
   
@@ -56,7 +56,7 @@
   }
   
   .icon-wrapper {
-    background: linear-gradient(145deg, #006affc7, #9500ffd2);
+    background: rgb(223, 0, 248);
     padding: 16px;
     border-radius: 50%;
     display: inline-flex;

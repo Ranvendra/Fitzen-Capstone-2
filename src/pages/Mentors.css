@@ -116,129 +116,6 @@
 }
 
 
-/* Search Section */
-
-.mentors-search-section {
-  padding: 6rem 2rem;
-  background: white;
-}
-
-.mentors-search-content {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.mentors-search-header {
-  text-align: center;
-  margin-bottom: 3rem;
-}
-
-.mentors-search-title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #1a1a1a;
-  margin-bottom: 1rem;
-}
-
-.mentors-search-description {
-  font-size: 1.1rem;
-  color: #666;
-  max-width: 500px;
-  margin: 0 auto;
-}
-
-.mentors-search-container {
-  display: flex;
-  justify-content: center;
-}
-
-.mentors-search-form {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  background: white;
-  padding: 1rem;
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  max-width: 800px;
-  width: 100%;
-  flex-wrap: wrap;
-}
-
-.mentors-search-input-wrapper {
-  position: relative;
-  flex: 1;
-  min-width: 280px;
-}
-
-.mentors-search-icon {
-  position: absolute;
-  left: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 20px;
-  height: 20px;
-  color: #999;
-  pointer-events: none;
-}
-
-.mentors-search-input {
-  width: 100%;
-  padding: 1rem 1rem 1rem 3rem;
-  border: 2px solid transparent;
-  border-radius: 12px;
-  background: #f8f9fa;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  outline: none;
-}
-
-.mentors-search-input:focus {
-  background: white;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-}
-
-.mentors-specialty-select {
-  padding: 1rem 1.5rem;
-  border: 2px solid transparent;
-  border-radius: 12px;
-  background: hsl(210, 17%, 98%);
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  outline: none;
-  min-width: 200px;
-}
-
-.mentors-specialty-select:focus {
-  background: white;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-}
-
-.mentors-search-button {
-  padding: 1rem 2rem;
-  background: rgb(1, 213, 43);
-  /* border: 1px solid rgb(20, 170, 0); */
-  color: white;
-  border: none;
-  border-radius: 12px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  white-space: nowrap;
-}
-
-.mentors-search-button:hover {
-  scale: 0.98;
-  background: rgb(0, 187, 37);
-  /* background: linear-gradient(135deg, #aa3cff, #5849ff); */
-
-}
-
 /* Mentors Section */
 .mentors-section {
   padding: 4rem 2rem 8rem;
@@ -248,9 +125,9 @@
 .mentors-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  column-gap: 10rem;
+  column-gap: 5rem;
   row-gap: 4rem;
-  margin: 0 4rem;
+  margin: 0 8rem;
 }
 
 .mentor-card {

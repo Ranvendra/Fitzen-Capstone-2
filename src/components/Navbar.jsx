@@ -30,7 +30,10 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       {/* Logo */}
-      <div className="logo">
+
+      <a href="./" style={{cursor: "pointor", textDecoration: "none"}}>
+        <div className="logo">
+        
         <div>
           <img
             className="logo-circle"
@@ -39,6 +42,8 @@ const Navbar = () => {
         </div>
         Fitzen
       </div>
+      </a>
+      
 
       {/* Navigation Links */}
       <div className="navContainer">
