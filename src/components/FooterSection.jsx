@@ -29,10 +29,10 @@ const FooterSection = () => {
         <div className="footer-social">
           <h3>Follow Us</h3>
           <div className="social-icons">
-            <a href="#"><FaFacebookF /></a>
-            <a href="#"><FaInstagram /></a>
-            <a href="#"><FaTwitter /></a>
-            <a href="#"><FaYoutube /></a>
+            <a href="https://www.facebook.com/fitzenofficial/"><FaFacebookF /></a>
+            <a href="https://www.instagram.com/fitzen_official/"><FaInstagram /></a>
+            <a href="https://x.com/FitFounder"><FaTwitter /></a>
+            <a href="https://www.youtube.com/@FitMediaChannel"><FaYoutube /></a>
           </div>
         </div>
       </div>
