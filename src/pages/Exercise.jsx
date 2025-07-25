@@ -35,12 +35,15 @@ const ExercisePage = () => {
   const YOUTUBE_API_KEY = Key;
   const YOUTUBE_API_URL = Api;
 
-  const categories = [
-    { name: "Cardio", searchQuery: "cardio workout Exercise" },
-    { name: "Yoga", searchQuery: "yoga workout morning flow" },
-    { name: "Strength", searchQuery: "strength training workout gym" },
-    { name: "Recovery", searchQuery: "recovery stretching mobility workout" },
-  ];
+  const categories = useMemo(
+    () => [
+      { name: "Cardio", searchQuery: "cardio workout Exercise" },
+      { name: "Yoga", searchQuery: "yoga workout morning flow" },
+      { name: "Strength", searchQuery: "strength training workout gym" },
+      { name: "Recovery", searchQuery: "recovery stretching mobility workout" },
+    ],
+    []
+  );
 
   const getDifficultyLevel = useCallback((duration, title, description) => {
     const durationMinutes = parseDuration(duration);
@@ -58,7 +61,7 @@ const ExercisePage = () => {
       content.includes("intense")
     ) {
       return "Advanced";
-    } else if (durationMinutes > 45) {
+    } else if (durationMinutes > 30) {
       return "Advanced";
     } else if (durationMinutes < 20) {
       return "Beginner";
@@ -619,10 +622,14 @@ const ExercisePage = () => {
           </div>
 
           <div className="cta-actions">
-            <a href="./signup"><button className="primary-cta-button">Start Free Trial →</button></a>
-            <a href="./exercise"><button className="secondary-cta-button">
-              Browse All Workouts
-            </button></a>
+            <a href="./signup">
+              <button className="primary-cta-button">Start Free Trial →</button>
+            </a>
+            <a href="./exercise">
+              <button className="secondary-cta-button">
+                Browse All Workouts
+              </button>
+            </a>
           </div>
         </div>
       </div>

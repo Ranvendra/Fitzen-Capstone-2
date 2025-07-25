@@ -11,7 +11,7 @@ import './App.css'
 import ScrollToTop from './components/ScrollToTop'
 import FooterSection from './components/FooterSection'
 
-import Signup from './components/Signup';  // Adjust if Signup is in components/
+import Signup from './components/Signup';
 import Login from './components/Login';
 
 
@@ -20,13 +20,12 @@ const AppLayout = () => {
     <div className='app'>
       <ScrollToTop />
       <Navbar />
-      <Outlet /> {/* This is where nested routes render */}
+      <Outlet />
       <FooterSection/>
     </div>
   )
 }
 
-// Optional: Example of routes inside <Body /> if needed
 const appRouter = createBrowserRouter([
   {
     path: '/',
@@ -62,7 +61,7 @@ const appRouter = createBrowserRouter([
         element: <Signup />
       }
       
-      // Add more nested routes here if needed
+     
     ],
     errorElement: <Error/>
   }
