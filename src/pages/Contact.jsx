@@ -24,6 +24,7 @@ const ContactPage = () => {
     }));
   }, []);
 
+  
   const handleSubmit = useCallback(async () => {
     // Basic validation
     if (!formData.name || !formData.email || !formData.message) {
@@ -54,7 +55,7 @@ const ContactPage = () => {
         subject: '',
         message: ''
       });
-    } catch (error) {
+    } catch{
       setFormStatus({
         isSubmitting: false,
         isSubmitted: false,
