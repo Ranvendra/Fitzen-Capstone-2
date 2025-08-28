@@ -1,7 +1,7 @@
 import React from 'react';
 import './HeroImages.css';
 
-import img from '../assets/main.png';
+import img from '../assets/main.webp';
 
 import { Link } from 'react-router-dom';
 
