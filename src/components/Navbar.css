@@ -1,131 +1,187 @@
-/* Global reset and font */
+/* Reset */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Inter', 'Segoe UI', sans-serif;
-  }
-  
-  /* Navbar styles */
-  .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    background: rgba(255, 255, 255, 0.86);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 0 0 1rem 1rem;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-  }
-  
-  /* Logo section */
-  .logo {
-    display: flex;
-    align-items: center;
-    font-size: 1.6rem;
-    font-weight: 600;
-    color: #0501fa;
-    gap: 1rem;
-  }
-  
-  .logo-circle {
-    background-color: #4c49fa;
-    color: white;
-    font-weight: bold;
-    border-radius: 50%;
-    width: 2.4rem;
-    height: 2.4rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  /* Navigation links */
-  .navContainer {
-    display: flex;
-    gap: 1.5rem;
-    align-items: center;
-  }
-  
-  .nav-link {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    text-decoration: none;
-    color: #374151;
-    font-size: 1rem;
-    font-weight: 500;
-    padding: 0.5rem 1.2rem;
-    border-radius: 999px;
-    transition: background 0.3s ease, color 0.3s ease;
-  }
-  
-  .nav-link:hover {
-    background-color: rgba(216, 109, 252, 0.1);
-    color: #8133ff;
-  }
-  
-  .nav-link.active {
-    background-color: rgba(195, 161, 255, 0.15);
-    color: #6200ff;
-    font-weight: 600;
-  }
-  
-  /* Login Button */
-  .login-btn {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1.4rem;
-    font-size: 1rem;
-    font-weight: 500;
-    color: #ffffff;
-    background: linear-gradient(135deg, #7c3aed, #4f46e5);
-    border: none;
-    border-radius: 999px;
-    cursor: pointer;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-  
-  .login-btn:hover {
-    background: linear-gradient(135deg, #6d28d9, #4338ca);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+}
 
-  .logOut-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #35c500;
-    color: white;
-    border-radius: 8px;
-    height: 2rem;
-    padding: 8px;
-    border: none;
-    font-weight: 600;
-    cursor: pointer;
-    margin-bottom: 2px;
-    
-  }
+/* Navbar styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0 0 1rem 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
 
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #0501fa;
+  gap: 1rem;
+}
+
+.logo-circle {
+  border-radius: 50%;
+  width: 2.4rem;
+  height: 2.4rem;
+  object-fit: cover;
+}
+
+/* Desktop nav links */
+.navContainer {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-decoration: none;
+  color: #374151;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.5rem 1.2rem;
+  border-radius: 999px;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.nav-link:hover {
+  background-color: rgba(216, 109, 252, 0.1);
+  color: #8133ff;
+}
+
+.nav-link.active {
+  background-color: rgba(195, 161, 255, 0.15);
+  color: #6200ff;
+  font-weight: 600;
+}
+
+/* Desktop Login Button */
+.login-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.4rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #ffffff;
+  background: linear-gradient(135deg, #7c3aed, #4f46e5);
+  border-radius: 999px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.login-btn:hover {
+  background: linear-gradient(135deg, #6d28d9, #4338ca);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Logout Button */
+.logOut-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #35c500;
+  color: white;
+  border-radius: 8px;
+  height: 2rem;
+  padding: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.logOut {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile-circle {
+  height: 40px;
+  width: 41px;
+  border-radius: 50%;
+}
+
+/* 🔹 Mobile Menu Button */
+.menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #374151;
+}
+
+/* 🔹 Mobile Dropdown */
+.mobile-menu {
+  position: absolute;
+  top: 4.5rem;
+  right: 1.5rem;
+  background: white;
+  border-radius: 1rem;
+  padding: 1rem;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  z-index: 2000;
+}
+
+.mobile-link {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  color: #374151;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.mobile-link:hover {
+  color: #6200ff;
+}
+
+.mobile-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #7c3aed, #4f46e5);
+  color: white;
+  border-radius: 999px;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* 🔹 Responsive */
+@media (max-width: 900px) {
+  .navContainer,
+  .login-btn,
   .logOut {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    column-gap: 10px;
-
+    display: none !important; /* hide desktop stuff */
   }
 
-  .profile-circle{
-     height: 40px;
-    width: 41px;
-    border-radius: 50%;
+  .menu-btn {
+    display: block; /* show hamburger */
   }
+}

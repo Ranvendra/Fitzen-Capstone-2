@@ -1,52 +1,32 @@
-
 .image-stack {
-    display: flex;
-    margin-top: 12px;
+  display: flex;
+  margin-top: 12px;
+}
+
+.image-block {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.4s ease;
+}
+
+/* 📱 Responsive styles for phones */
+@media (max-width: 768px) {
+  .image-stack {
+    flex-direction: column;
+    margin-top: 0;
   }
-  
+
   .image-block {
-    display: flex;
-    height: 100vh;
-    width: 25%;
-    background-size: cover;
-    background-position: center;
-    transition: transform 0.4s ease;
+    height: 50vh; /* reduce full-screen height on mobile */
+    background-position: top; /* better crop for smaller screens */
   }
-  
-  .hero-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-    padding: 3rem 1rem;
-    background-color: #f0f4f8;
+}
+
+@media (max-width: 480px) {
+  .image-block {
+    height: 40vh; /* even smaller height on tiny screens */
   }
-  
-  .hero-btn {
-    padding: 0.9rem 2rem;
-    border-radius: 999px;
-    font-size: 1rem;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-  }
-  
-  .primary-btn {
-    background-color: #4f46e5;
-    color: white;
-  }
-  
-  .primary-btn:hover {
-    background-color: #4338ca;
-    transform: translateY(-2px);
-  }
-  
-  .secondary-btn {
-    background-color: #f6f8ff;
-    color: #3730a3;
-  }
-  
-  .secondary-btn:hover {
-    background-color: #ffffff;
-    transform: translateY(-2px);
-  }
+}
